@@ -5,5 +5,5 @@ from django.db import models
 class Coin(models.Model):
     name=models.CharField(max_length=255)
     ticker=models.CharField(max_length=10)
-    price=models.DecimalField()
-    btc_price=models.DecimalField()
+    price=models.DecimalField(max_digits=12, decimal_places=8)
+    btc_price=models.DecimalField(max_digits=12, decimal_places=8)
