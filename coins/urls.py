@@ -16,11 +16,14 @@ Including another URLconf
 
 
 from django.conf.urls import url, include
-from rest_framework import routers
-from coin import views
 from django.contrib import admin
 from django.urls import path
+from rest_framework import routers
+from coin import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    url('admin/', admin.site.urls),
+    url(r'^api/v1/users/', include('userprofile.urls')),
+    url(r'^api/v1/coins/', include('coin.urls'))
+
 ]
