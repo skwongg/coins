@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'coin',
     'userprofile',
+    'cointegrations',
 ]
 
 REST_FRAMEWORK = {
