@@ -6,11 +6,12 @@ from django.db.models import Q
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
-from rest_framework.generics import (CreateAPIView, UpdateAPIView)
+from rest_framework.generics import (CreateAPIView, UpdateAPIView, RetrieveAPIView)
 from rest_framework.permissions import (AllowAny,IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly)
 from coin.models import Coin
 from coin.serializers.create_coin import CoinCreateSerializer
 from coin.serializers.update_coin import CoinUpdateSerializer
+from coin.serializers.read_coins import CoinReadSerializer
 import json
 
 class CoinCreateAPIView(CreateAPIView):
@@ -38,3 +39,10 @@ class CoinUpdateAPIView(UpdateAPIView):
                 else:
                     return False
             return True
+
+class CoinReadAPIView(RetrieveAPIView):
+    serializer_class=CoinReadSerializer
+    def get(self, request):
+        coins = Coin.objects.all()
+        serializer = CoinReadSerializer(coins, many=True)
+        return Response({"coins":serializer.data}, status=HTTP_200_OK)
