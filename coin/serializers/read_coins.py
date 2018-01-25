@@ -11,6 +11,7 @@ class CoinReadSerializer(ModelSerializer):
         fields = [
             'name',
             'ticker',
+            'pair',
             'price',
             'btc_price',
         ]
