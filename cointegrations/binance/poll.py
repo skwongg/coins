@@ -18,13 +18,15 @@ class BinancePoll(Coin):
             raise
 
     def get_all_coins(self):
+        main_coins = dict()
         r = requests.get(BINAN_BASE_URL + "/ticker/allPrices")
         all_coins = r.json()
         for coin in all_coins:
             if coin['symbol'] == 'BTCUSDT':
                 big_btc = float(coin['price'])
+                break
         if not big_btc:
-            return
+            raise
 
         for coin in all_coins:
             if 'USDT' in coin['symbol']:
@@ -32,12 +34,49 @@ class BinancePoll(Coin):
                     basepair = Coin.objects.get(pair=coin['symbol'])
                 except:
                     basepair = Coin(pair=coin['symbol'])
-                basepair.ticker = coin['symbol'].split('USDT')[0]
-                basepair.name = coin['symbol'].split('USDT')[0]
-                basepair.price = (coin['price'])
-                basepair.btc_price = (float(coin['price']) / big_btc)
+                ticker = coin['symbol'].split('USDT')[0]
+                price = coin['price']
+                basepair.ticker = ticker
+                basepair.name = ticker
+                basepair.price = price
+                basepair.btc_price = (float(price) / big_btc)
                 basepair.save()
-                print (coin)
+
+                ##turn into dictionary entry
+                main_coins[ticker] = price
+
+        ##TRADING pairs
+        for coin in all_coins:
+            if 'USDT' in coin['symbol']:
+                continue
+            else:
+                for maincoin in main_coins.keys():
+                    if maincoin in coin['symbol']:
+                        if coin['symbol'].index(maincoin) > 0:
+                            cutoff = coin['symbol'].index(maincoin)
+                            ticker = coin['symbol'][0:cutoff]
+                            in_terms_of = coin['symbol'][cutoff:]
+                            price = float(main_coins[in_terms_of]) * float(coin['price'])
+
+
+                            # print(ticker, in_terms_of)
+
+                            try:
+                                cryptopair = Coin.objects.get(pair=coin['symbol'])
+                            except:
+                                cryptopair = Coin(pair=coin['symbol'])
+                            cryptopair.ticker = ticker
+                            cryptopair.name = ticker
+                            cryptopair.price = price
+                            cryptopair.btc_price = (price / big_btc)
+                            cryptopair.save()
+
+                            print(price, ticker, coin['price'], in_terms_of)
+                            print("Coin {0} saved successfully.".format(ticker))
+                            print ("*" * 100)
+
+
+                # print (coin['symbol'], coin['price'])
         return all_coins, len(all_coins)
 
     def update_coins(self):
