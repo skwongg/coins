@@ -10,15 +10,23 @@ class BinancePoll(Coin):
     btc_price = ''
     maincoins=dict()
 
-    def pollo_world(self):
+    def poll_prices(self):
         return self.update_all_coins()
 
-    def check_heartbeat(self):
+    def ping_binance(self):
         r = requests.get("{0}/ping".format(BINAN_BASE_URL))
         if r.status_code:
             return True
         else:
             raise
+
+    def get_binance_time(self):
+        r = requests.get("{0}/time".format(BINAN_BASE_URL)).json()
+        if 'serverTime' in r:
+            return r['serverTime']
+        else:
+            return False
+
 
     def find_btc(self, all_coins):
         for coin in all_coins:
@@ -93,3 +101,15 @@ class BinancePoll(Coin):
                 print (coin['symbol'], coin['price'])
                 continue
         return "finished"
+
+
+
+
+    def poll_volume(self):
+        r = requests.get(BINAN_BASE_URL + "/aggTrades?symbol=PIVAXBNB")
+        agg_trades = r.json()
+
+        if ('code' in agg_trades) and ((agg_trades['code'] == -1121) or (agg_trades['code'] == -1100)):
+            return False
+        print(agg_trades)
+        return agg_trades

@@ -13,12 +13,14 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         exch = options['exchange_name']
-        acceptable_exchanges = ('binance','bittrex','gdax','kucoin','kraken')
-        if exch in acceptable_exchanges:
-            if exch == 'binance':
-                a = BinancePoll()
-                a.pollo_world()
-                return "exchange poll for: <<{0}>> completed".format(exch)
+        a = BinancePoll()
+        if exch =='poll':
+            a.poll_prices()
+            return "binance price polling complete"
+
+        elif exch == 'volume':
+            a.poll_volume()
+            return "binance volume polling complete"
         else:
             return 'Error: {0} exchange not found'.format(exch)
         return options['exchange_name']
