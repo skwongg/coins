@@ -1,10 +1,13 @@
 import os
 import requests
+from pymongo import MongoClient
 from coin.models import Coin
 
 BINAN_API_KEY=os.environ.get("BINAN_API_KEY")
 BINAN_SECRET_KEY=os.environ.get("BINAN_SECRET_KEY")
 BINAN_BASE_URL=os.environ.get("BINAN_BASE_URL")
+MONGO_URL=os.environ.get("MONGO_URL")
+mongo = MongoClient(MONGO_URL)
 
 class BinancePoll(Coin):
     btc_price = ''
@@ -26,7 +29,6 @@ class BinancePoll(Coin):
             return r['serverTime']
         else:
             return False
-
 
     def find_btc(self, all_coins):
         for coin in all_coins:
@@ -102,14 +104,30 @@ class BinancePoll(Coin):
                 continue
         return "finished"
 
-
-
-
-    def poll_volume(self):
-        r = requests.get(BINAN_BASE_URL + "/aggTrades?symbol=PIVAXBNB")
+    def aggregate_trades(self):
+        r = requests.get(BINAN_BASE_URL + "/aggTrades?symbol=ETHBTC")
         agg_trades = r.json()
 
         if ('code' in agg_trades) and ((agg_trades['code'] == -1121) or (agg_trades['code'] == -1100)):
             return False
-        print(agg_trades)
         return agg_trades
+
+    def get_depths(self):
+        coin_tickers = Coin.objects.all().values_list('pair',flat=True)
+        for coin in coin_tickers[:5]:
+            r = requests.get(BINAN_BASE_URL + "/depth?symbol={0}".format(coin))
+            agg_trades = r.json()
+        return agg_trades
+
+    def get_24h_stats(self):
+        all_stats = requests.get(BINAN_BASE_URL + "/ticker/24hr").json()
+        db = mongo.mongocoin
+        collections = db.daily_coin_data
+        for stat in all_stats:
+            print (all_stats)
+            mongobj_id = collections.insert_one(stat)
+            try:
+                print("Pair {0}: Completed. MongoID: {1}".format(stat['symbol'], mongobj_id))
+            except:
+                print("Pair {0} Failed...".format(stat['symbol']))
+        return all_stats

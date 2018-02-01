@@ -18,9 +18,12 @@ class Command(BaseCommand):
             a.poll_prices()
             return "binance price polling complete"
 
-        elif exch == 'volume':
-            a.poll_volume()
-            return "binance volume polling complete"
+        elif exch=='24hr':
+            print(a.get_24h_stats())
+            return "24hr stats call complete"
+
+
+
         else:
             return 'Error: {0} exchange not found'.format(exch)
         return options['exchange_name']

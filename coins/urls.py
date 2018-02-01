@@ -24,6 +24,6 @@ from coin import views
 urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^api/v1/users/', include('userprofile.urls')),
-    url(r'^api/v1/coins/', include('coin.urls'))
-
+    url(r'^api/v1/coins/', include('coin.urls')),
+    url(r'^api/v1/hodls/', include('hodlings.urls')),
 ]

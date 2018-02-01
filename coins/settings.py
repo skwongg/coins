@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'coin',
     'userprofile',
     'cointegrations',
+    'hodlings',
 ]
 
 REST_FRAMEWORK = {
