@@ -42,6 +42,8 @@ class BinancePoll(Coin):
                 basepair=Coin.objects.get(pair=coin_obj['symbol'])
             except:
                 basepair=Coin(pair=coin_obj['symbol'])
+                print("NEW COIN: {0}".format(coin_obj['symbol']))
+                print("@" * 100)
             ticker = coin_obj['symbol'].split('USDT')[0]
             price = coin_obj['price']
             basepair.ticker = ticker
@@ -76,7 +78,7 @@ class BinancePoll(Coin):
 
                     print(price, ticker, coin_obj['price'], in_terms_of)
                     print("Coin {0} saved successfully.".format(ticker))
-                    print ("*" * 100)
+                    print("*" * 100)
                 else:
                     continue
 

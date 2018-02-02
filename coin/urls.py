@@ -11,5 +11,5 @@ from coin.views import (
 urlpatterns = [
     url(r'^create/$', CoinCreateAPIView.as_view(), name='create'),
     url(r'^edit/$', CoinUpdateAPIView.as_view(), name='update'),
-    url(r'^all/$', CoinReadAPIView.as_view(), name='retrieve'),
+    url(r'^$', CoinReadAPIView.as_view(), name='retrieve'),
 ]
