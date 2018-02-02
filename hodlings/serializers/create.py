@@ -4,7 +4,7 @@ from rest_framework.serializers import (
     ModelSerializer,
     CharField,
 )
-class HodlingReadSerializer(ModelSerializer):
+class HodlingCreateSerializer(ModelSerializer):
     class Meta:
         model = Hodling
         fields = [
