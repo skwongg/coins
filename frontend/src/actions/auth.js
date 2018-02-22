@@ -10,3 +10,8 @@ export const logout = () => (dispatch) => {
   setAuthorizationHeader();
   dispatch(userLoggedOut());
 }
+
+
+export const login = () => (dispatch) => {
+  console.log('something something')
+}
