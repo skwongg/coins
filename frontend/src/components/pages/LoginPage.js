@@ -3,13 +3,12 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import LoginForm from '../forms/LoginForm';
 import { login } from '../../actions/auth';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 class LoginPage extends React.Component {
-  submit = (data) => {
-    console.log(data)
-    // this.props.login(data).then(() => this.props.history.push('/dashboard'));
-  }
+  submit = (data) =>
+    this.props.login(data).then(() => this.props.history.push('/dashboard'));
+
   render() {
     return (
       <div>
