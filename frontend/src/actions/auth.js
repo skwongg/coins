@@ -12,11 +12,10 @@ export const userLoggedOut = () => ({
 });
 
 export const logout = () => (dispatch) => {
-  localStorage.removeItem('bookwormJWT');
+  localStorage.removeItem('coinJWT');
   setAuthorizationHeader();
   dispatch(userLoggedOut());
 }
-
 
 
 
@@ -25,6 +24,3 @@ export const login = credentials => (dispatch) =>
     localStorage.coinJWT = user.token;
     dispatch(userLoggedIn(user))
   })
-  //api.user.login is api request
-  //function login returns a promise, in which then res.data.user gets data
-  //to pass to next function

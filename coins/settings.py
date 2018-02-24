@@ -45,11 +45,18 @@ INSTALLED_APPS = [
     'userprofile',
     'cointegrations',
     'hodlings',
+    'jwtauth',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
+        'rest_framework.permissions.AllowAny',
+        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
     ],
 }
 
@@ -138,3 +145,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+##JWT Auth config using rest-framework-jwt
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'jwtauth.custom_jwt.jwt_response_payload_handler',
+    'JWT_PAYLOAD_HANDLER': 'jwtauth.custom_jwt.jwt_payload_handler',
+
+}
