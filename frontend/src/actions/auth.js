@@ -17,8 +17,6 @@ export const logout = () => (dispatch) => {
   dispatch(userLoggedOut());
 }
 
-
-
 export const login = credentials => (dispatch) =>
   api.user.login(credentials).then(user => {
     localStorage.coinJWT = user.token;

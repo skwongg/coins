@@ -13,8 +13,5 @@ urlpatterns = [
     url(r'^api/v1/users/', include('userprofile.urls')),
     url(r'^api/v1/coins/', include('coin.urls')),
     url(r'^api/v1/hodls/', include('hodlings.urls')),
-    # url(r'^api-token-auth/', obtain_jwt_token),
-    # url(r'^api/auth/', obtain_jwt_token)
-    # url(r'^api/auth/', ObtainJSONWebToken.as_view(serializer_class=CoinsJWTSerializer)),
     url(r'^api/auth/', CoinsJWTAPIView.as_view()),
 ]
