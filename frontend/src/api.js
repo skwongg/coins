@@ -9,7 +9,9 @@ export default {
           return JSON.parse(res.data)
         }),
       signup: user =>
-        axios.post('/api/v1/users/', {user}).then(res => res.data.user),
+        axios.post('/api/v1/users/', {user}).then(res => {
+          return res.data
+        }),
 
     }
 };

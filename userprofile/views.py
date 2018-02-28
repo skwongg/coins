@@ -11,19 +11,22 @@ from rest_framework.permissions import (AllowAny,IsAuthenticated,IsAdminUser,IsA
 from userprofile.serializers.create_user import UserCreateSerializer
 from userprofile.serializers.login_user import UserLoginSerializer
 from userprofile.serializers.update_user import UserUpdateSerializer
+from rest_framework_jwt.utils import jwt_encode_handler
+from jwtauth.custom_jwt import jwt_payload_handler
 
 User = get_user_model()
 
 class UserCreateAPIView(CreateAPIView):
     serializer_class = UserCreateSerializer
 
-    # queryset = User.objects.all()
     def post(self, request, *args, **kwargs):
-        data = request.data
-        serializer = UserCreateSerializer(data)
-        print("* " * 100)
-        print(serializer.data)
-        return Response(serializer.data, status=HTTP_200_OK)
+        validated_data = request.data.get('user')
+        serializer = UserCreateSerializer(data=validated_data)
+        if serializer.is_valid(raise_exception=True):
+            serializer.save()
+            return Response(serializer.data, status=HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
 class UserLoginAPIView(APIView):
@@ -34,7 +37,7 @@ class UserLoginAPIView(APIView):
         serializer = UserLoginSerializer(data=data)
         if serializer.is_valid(raise_exception=True):
             new_data = serializer.data
-            return Response(new_data, status=HTTP_200_OK)
+            return Response({'data':new_data}, status=HTTP_200_OK)
         else:
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
@@ -44,4 +47,4 @@ class UserUpdateAPIView(UpdateAPIView):
     permission_classes = [IsAuthenticated]
     def post(self, request, format=None):
         data = request
-        queryset=User.objects.get()
+        queryset = User.objects.get()

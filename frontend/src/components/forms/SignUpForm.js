@@ -8,7 +8,9 @@ class SignUpForm extends React.Component{
   state = {
     data: {
       email: '',
-      password: ''
+      password: '',
+      passwordconf: '',
+      username: '',
     },
     loading: false,
     errors: {}
@@ -27,7 +29,9 @@ class SignUpForm extends React.Component{
     if (Object.keys(errors).length === 0) {
       this.setState({loading:true});
       this.props.submit(this.state.data)
-        .catch(err => this.setState({errors:err.response.data.errors, loading: false}));
+        .catch(err => {
+          debugger
+          this.setState({errors:err.response.data.errors, loading: false})});
     }
   };
 
@@ -37,8 +41,8 @@ class SignUpForm extends React.Component{
     if (!data.first_name) errors.first_name = "First name required";
     if (!data.last_name) errors.last_name = "Last name required";
     if (!isEmail(data.email)) errors.email = "Invalid email";
-    if (!data.password || (data.password != data.passwordconf)) errors.password = "Password required";
-    if (!data.passwordconf || (data.password != data.passwordconf)) errors.passwordconf = "Please confirm your password";
+    if (!data.password || (data.password !== data.passwordconf)) errors.password = "Password required";
+    if (!data.passwordconf || (data.password !== data.passwordconf)) errors.passwordconf = "Please confirm your password";
     return errors;
   };
 
