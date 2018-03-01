@@ -30,8 +30,7 @@ class SignUpForm extends React.Component{
       this.setState({loading:true});
       this.props.submit(this.state.data)
         .catch(err => {
-          debugger
-          this.setState({errors:err.response.data.errors, loading: false})});
+          this.setState({errors:err.response.data, loading: false})});
     }
   };
 

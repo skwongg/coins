@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework.authtoken',
     'coin',
     'userprofile',
     'cointegrations',
@@ -147,9 +148,17 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-##JWT Auth config using rest-framework-jwt
+# JWT Auth config using rest-framework-jwt
 JWT_AUTH = {
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'jwtauth.custom_jwt.jwt_response_payload_handler',
     'JWT_PAYLOAD_HANDLER': 'jwtauth.custom_jwt.jwt_payload_handler',
 
 }
+
+
+# SMTP / mail service config
+EMAIL_USE_TLS = True
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_HOST_USER = os.environ.get("EMAIL_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_PASS")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")

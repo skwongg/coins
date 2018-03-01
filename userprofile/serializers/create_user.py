@@ -24,6 +24,9 @@ class UserCreateSerializer(ModelSerializer):
         ]
         extra_kwargs = {"password": {"write_only":True}}
 
+    def get_passwordconf(self, obj):
+        return obj
+
     def get_token(self, obj):
         return jwt_encode_handler(jwt_payload_handler(User.objects.get(id=obj.id)))
 
@@ -36,15 +39,12 @@ class UserCreateSerializer(ModelSerializer):
         )
         user.set_password(validated_data['password'])
         user.save()
-        b = user
-        b.token = jwt_encode_handler(jwt_payload_handler(user))
-        return b
+        user.token = jwt_encode_handler(jwt_payload_handler(user))
+        return user
 
-    # def validate(self, data):
-    #     email = data.get("email")
-    #     user_qs = User.objects.filter(email=email)
-    #     if user_qs.exists():
-    #         raise ValidationError("This email has already been taken.")
-    #     if data.get("password") != data.get("passwordconf"):
-    #         raise ValidationError("Passwords must match")
-    #     return data
+    def validate(self, data):
+        email = data.get("email")
+        user_qs = User.objects.filter(email=email)
+        if user_qs.exists():
+            raise ValidationError("This email has already been taken.")
+        return data
