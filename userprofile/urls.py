@@ -5,11 +5,12 @@ from userprofile.views import (
     UserCreateAPIView,
     UserUpdateAPIView,
     UserLoginAPIView,
+    UserTokenVerifyAPIView,
 )
 
 urlpatterns = [
     url(r'^login/$', UserLoginAPIView.as_view(), name='login'),
     url(r'^update/$', UserUpdateAPIView.as_view(), name='update'),
-    url(r'^$', UserCreateAPIView.as_view(), name='register'),
-    url(r'^token/$', UserCreateAPIView.as_view(), name='token'),
+    url(r'^register$', UserCreateAPIView.as_view(), name='register'),
+    url(r'^verify/(?P<token_key>[\w.-]+)/', UserTokenVerifyAPIView.as_view(), name='verify'),
 ]

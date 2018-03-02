@@ -8,6 +8,7 @@ from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
 from rest_framework.views import APIView
 from rest_framework.generics import (CreateAPIView, UpdateAPIView)
 from rest_framework.permissions import (AllowAny,IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly)
+from rest_framework.authtoken.models import Token
 from userprofile.serializers.create_user import UserCreateSerializer
 from userprofile.serializers.login_user import UserLoginSerializer
 from userprofile.serializers.update_user import UserUpdateSerializer
@@ -48,3 +49,19 @@ class UserUpdateAPIView(UpdateAPIView):
     def post(self, request, format=None):
         data = request
         queryset = User.objects.get()
+
+
+class UserTokenVerifyAPIView(APIView):
+    permission_classes = [AllowAny]
+    def get(self, request, *args, **kwargs):
+        if 'token_key' in self.kwargs:
+            token_key = self.kwargs['token_key']
+            conf_token = Token.objects.filter(key=token_key)
+            if conf_token:
+                confirmed_user = conf_token.first().user.userprofile
+                if not confirmed_user.is_authenticated:
+                    confirmed_user.is_authenticated = True
+                    confirmed_user.save()
+                return Response({'data': 'Success'}, status=HTTP_200_OK)
+            else:
+                return Response({'error': 'User not found'}, status=HTTP_400_BAD_REQUEST)

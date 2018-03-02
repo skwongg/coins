@@ -9,9 +9,13 @@ export default {
           return JSON.parse(res.data)
         }),
       signup: user =>
-        axios.post('/api/v1/users/', {user}).then(res => {
+        axios.post('/api/v1/users/register', {user}).then(res => {
           return res.data
         }),
+      verify: token =>
+        axios.post('/api/v1/users/verify', {token}).then(res => {
+          return res.data //not done yet
+        })
 
     }
 };

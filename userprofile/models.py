@@ -14,11 +14,16 @@ class UserProfile(models.Model):
     phone = models.CharField(max_length=48, blank=True)
     is_authenticated = models.BooleanField(default=False)
 
-    def send_auth_email(self, token):
+    def send_auth_email(self):
         if self.is_authenticated:
-            return
+            return "User already authenticated."
         else:
-            send_mail
+            token_url = "http://127.0.0.1:8000/api/v1/users/verify/{0}/".format(self.user.auth_token.key)
+            subject = "Welcome to Cryptographo! Please verify your email."
+            body = "Doge said this url will bring much fortune and is very wow. Click here plx. {0}".format(token_url)
+            from_email = 'silaskwong1@gmail.com'
+            to_email = self.user.email
+            send_mail(subject, body, from_email, to_email)
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):

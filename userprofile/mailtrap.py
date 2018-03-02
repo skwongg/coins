@@ -12,6 +12,6 @@ def send_mail(subject, body, from_email, to_email):
     # The actual mail send
     server = smtplib.SMTP('mailtrap.io', 2525)
     server.starttls()
-    server.login(os.environ['EMAIL_HOST_USER'], os.environ['EMAIL_HOST_PASSWORD'])
+    server.login(os.environ['EMAIL_USER'], os.environ['EMAIL_PASS'])
     server.sendmail( from_email, [to_email], msg.as_string())
     server.quit()

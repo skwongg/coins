@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'cointegrations',
     'hodlings',
     'jwtauth',
+
 ]
 
 REST_FRAMEWORK = {
