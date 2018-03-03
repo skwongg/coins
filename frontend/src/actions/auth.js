@@ -22,3 +22,15 @@ export const login = credentials => (dispatch) =>
     localStorage.coinJWT = user.token;
     dispatch(userLoggedIn(user))
   })
+
+export const confirm = (token) => (dispatch) => api.user.verify(token)
+  .then(user => {
+    localStorage.removeItem('coinJWT');
+    setAuthorizationHeader();
+    dispatch(userLoggedOut());
+  })
+
+export const resetpw = credentials => (dispatch) =>
+  api.user.resetpw(credentials)//.then( res => {
+    //do something
+  // })

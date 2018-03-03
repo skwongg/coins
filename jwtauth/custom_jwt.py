@@ -9,11 +9,12 @@ def jwt_payload_handler(user):
     return {
         'user_id': user.pk,
         'email': user.email,
+        'confirmed': user.userprofile.is_authenticated,
         'is_superuser': user.is_superuser,
         'exp': datetime.utcnow() + api_settings.JWT_EXPIRATION_DELTA,
         'orig_iat': timegm(
             datetime.utcnow().utctimetuple()
-        )
+        ),
     }
 
 def jwt_response_payload_handler(token, user=None, request=None):
@@ -24,5 +25,5 @@ def jwt_response_payload_handler(token, user=None, request=None):
     return {
         'token': token,
         'email': user.email,
-        'confirmed': False
+        'confirmed': user.userprofile.is_authenticated
     }

@@ -14,7 +14,6 @@ import json
 class CoinsJWTAPIView(APIView):
     serializer_class=CoinsJWTSerializer
     renderer_classes=[JSONRenderer,]
-    # permission_classes=[IsAuthenticated]
 
     def post(self, request, format=None):
         token_obj = self.validate(request.data['credentials'])
@@ -38,8 +37,9 @@ class CoinsJWTAPIView(APIView):
 
                     payload = jwt_payload_handler(user)
                     return {
-                    'token': jwt_encode_handler(payload),
-                    'email': user.email
+                        'token': jwt_encode_handler(payload),
+                        'email': user.email,
+                        'confirmed': user.userprofile.is_authenticated
                     }
                 else:
                     msg = ('Unable to log in with provided credentials.')

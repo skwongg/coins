@@ -18,7 +18,7 @@ class UserProfile(models.Model):
         if self.is_authenticated:
             return "User already authenticated."
         else:
-            token_url = "http://127.0.0.1:8000/api/v1/users/verify/{0}/".format(self.user.auth_token.key)
+            token_url = "http://127.0.0.1:3000/verify/{0}/".format(self.user.auth_token.key)
             subject = "Welcome to Cryptographo! Please verify your email."
             body = "Doge said this url will bring much fortune and is very wow. Click here plx. {0}".format(token_url)
             from_email = 'silaskwong1@gmail.com'

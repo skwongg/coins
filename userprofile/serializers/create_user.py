@@ -24,9 +24,6 @@ class UserCreateSerializer(ModelSerializer):
         ]
         extra_kwargs = {"password": {"write_only":True}}
 
-    def get_passwordconf(self, obj):
-        return obj
-
     def get_token(self, obj):
         return jwt_encode_handler(jwt_payload_handler(User.objects.get(id=obj.id)))
 

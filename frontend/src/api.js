@@ -5,7 +5,7 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 export default {
     user: {
       login: (credentials) =>
-        axios.post('/api/auth/', {credentials}).then(res => {
+        axios.post('/api/v1/auth/', {credentials}).then(res => {
           return JSON.parse(res.data)
         }),
       signup: user =>
@@ -14,7 +14,11 @@ export default {
         }),
       verify: token =>
         axios.post('/api/v1/users/verify', {token}).then(res => {
-          return res.data //not done yet
+          return res.data
+        }),
+      resetpw: (data) =>
+        axios.post('/api/v1/users/resetpw', {data}).then(function(res) {
+          return res.data
         })
 
     }

@@ -10,10 +10,7 @@ from rest_framework.generics import (CreateAPIView, UpdateAPIView)
 from rest_framework.permissions import (AllowAny,IsAuthenticated,IsAdminUser,IsAuthenticatedOrReadOnly)
 from rest_framework.authtoken.models import Token
 from userprofile.serializers.create_user import UserCreateSerializer
-from userprofile.serializers.login_user import UserLoginSerializer
 from userprofile.serializers.update_user import UserUpdateSerializer
-from rest_framework_jwt.utils import jwt_encode_handler
-from jwtauth.custom_jwt import jwt_payload_handler
 
 User = get_user_model()
 
@@ -30,19 +27,6 @@ class UserCreateAPIView(CreateAPIView):
             return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
 
 
-class UserLoginAPIView(APIView):
-    permission_classes = [AllowAny]
-    serializer_class = UserLoginSerializer
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        serializer = UserLoginSerializer(data=data)
-        if serializer.is_valid(raise_exception=True):
-            new_data = serializer.data
-            return Response({'data':new_data}, status=HTTP_200_OK)
-        else:
-            return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-
-
 class UserUpdateAPIView(UpdateAPIView):
     serializer_class = UserUpdateSerializer
     permission_classes = [IsAuthenticated]
@@ -53,9 +37,9 @@ class UserUpdateAPIView(UpdateAPIView):
 
 class UserTokenVerifyAPIView(APIView):
     permission_classes = [AllowAny]
-    def get(self, request, *args, **kwargs):
-        if 'token_key' in self.kwargs:
-            token_key = self.kwargs['token_key']
+    def post(self, request, *args, **kwargs):
+        if ('token' in request.data) and request.data['token']:
+            token_key = request.data['token']
             conf_token = Token.objects.filter(key=token_key)
             if conf_token:
                 confirmed_user = conf_token.first().user.userprofile
@@ -63,5 +47,13 @@ class UserTokenVerifyAPIView(APIView):
                     confirmed_user.is_authenticated = True
                     confirmed_user.save()
                 return Response({'data': 'Success'}, status=HTTP_200_OK)
-            else:
-                return Response({'error': 'User not found'}, status=HTTP_400_BAD_REQUEST)
+        return Response({'error': 'User not found'}, status=HTTP_400_BAD_REQUEST)
+
+
+class UserResetPasswordAPIView(APIView):
+    #serializer_class
+    #permission_classes
+    def post(self, request, *args, **kwargs):
+        validated_data = request.data
+        print(validated_data)
+        return Response({'data': 'Success'}, status=HTTP_200_OK)
