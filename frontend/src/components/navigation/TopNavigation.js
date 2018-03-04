@@ -14,7 +14,7 @@ const TopNavigation = ({ user, logout, hasBooks }) => {
     {hasBooks && <Menu.Item as={Link} to='/books/new'>Add New Book</Menu.Item>}
 
     <Menu.Menu position="right">
-      <Dropdown trigger={<Image avatar src={gravatarUrl('silaskwong1@gmail.com')} />}>
+      <Dropdown trigger={<Image avatar src={gravatarUrl('a@b.com')} />}>
         <Dropdown.Menu>
           <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
         </Dropdown.Menu>

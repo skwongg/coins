@@ -19,7 +19,9 @@ export default {
       resetpw: (data) =>
         axios.post('/api/v1/users/resetpw', {data}).then(function(res) {
           return res.data
-        })
+        }),
+      resetPasswordRequest: email =>
+        axios.post('api/v1/users/resetpw', { email })
 
     }
 };

@@ -11,6 +11,10 @@ from rest_framework.permissions import (AllowAny,IsAuthenticated,IsAdminUser,IsA
 from rest_framework.authtoken.models import Token
 from userprofile.serializers.create_user import UserCreateSerializer
 from userprofile.serializers.update_user import UserUpdateSerializer
+from userprofile.mailtrap import send_mail
+from pwreset.models import PasswordReset
+import hashlib
+import os
 
 User = get_user_model()
 
@@ -51,9 +55,25 @@ class UserTokenVerifyAPIView(APIView):
 
 
 class UserResetPasswordAPIView(APIView):
-    #serializer_class
-    #permission_classes
     def post(self, request, *args, **kwargs):
         validated_data = request.data
-        print(validated_data)
-        return Response({'data': 'Success'}, status=HTTP_200_OK)
+        if 'email' not in request.data:
+            return Response({}, status=HTTP_400_BAD_REQUEST)
+
+        email=validated_data['email']
+        token = hashlib.sha256(bytes((email + os.environ['SALT']), 'utf-8')).hexdigest()
+
+        self.send_pwreset(email, token)
+        pwr_token = PasswordReset.objects.get_or_create(email=email, token=token)
+        # print(validated_data)
+        return Response({}, status=HTTP_200_OK)
+
+
+
+    def send_pwreset(self, email, token):
+        subject = "Password reset instructions"
+        body = """Follow these steps to reset your password. {0} \n If you did not request for your password to be reset, please ignore this email.""".format("http://127.0.0.1:3000/reset_password/{}".format(token))
+        from_email = 'from@email.com'
+        to_email = email
+
+        send_mail(subject, body, from_email, to_email)

@@ -21,7 +21,7 @@ class UserProfile(models.Model):
             token_url = "http://127.0.0.1:3000/verify/{0}/".format(self.user.auth_token.key)
             subject = "Welcome to Cryptographo! Please verify your email."
             body = "Doge said this url will bring much fortune and is very wow. Click here plx. {0}".format(token_url)
-            from_email = 'silaskwong1@gmail.com'
+            from_email = 'from@email.com'
             to_email = self.user.email
             send_mail(subject, body, from_email, to_email)
 

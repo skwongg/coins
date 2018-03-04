@@ -34,3 +34,6 @@ export const resetpw = credentials => (dispatch) =>
   api.user.resetpw(credentials)//.then( res => {
     //do something
   // })
+
+export const resetPasswordRequest = ({email}) => () =>
+  api.user.resetPasswordRequest(email)

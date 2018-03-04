@@ -25,6 +25,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'z^06h0=q-9eet$s%gu-98jo22e%2p4lngwdt4ruys-@@9$lnn@'
 
+#DEFAULT SALT ADDED
+SALT = os.environ.get("SALT")
+
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -47,6 +51,7 @@ INSTALLED_APPS = [
     'cointegrations',
     'hodlings',
     'jwtauth',
+    'pwreset',
 
 ]
 
