@@ -15,8 +15,11 @@ import TopNavigation from './components/navigation/TopNavigation';
 
 
 const App = ({location, isAuthenticated}) =>
-  <div className="ui container">
+<div>
+  <div className="ui row">
     {isAuthenticated && <TopNavigation />}
+  </div>
+  <div className="ui container">
 
     <Route
       location={location}
@@ -68,7 +71,7 @@ const App = ({location, isAuthenticated}) =>
       />
 
   </div>
-
+</div>
 App.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired
@@ -78,7 +81,7 @@ App.propTypes = {
 
 function mapStateToProps(state){
   return {
-    isAuthenticated: null
+    isAuthenticated: !!state.user.email
   }
 }
 export default connect(mapStateToProps)(App);

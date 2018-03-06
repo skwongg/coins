@@ -19,7 +19,6 @@ const store = createStore(
 
 if (localStorage.coinJWT) {
   const payload = decode(localStorage.coinJWT);
-  console.log(payload)
   const user = { token: localStorage.coinJWT, email: payload.email, confirmed: payload.confirmed};
   store.dispatch(userLoggedIn(user));
 }

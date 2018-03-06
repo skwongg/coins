@@ -11,7 +11,7 @@ const TopNavigation = ({ user, logout, hasBooks }) => {
   return (<Menu secondary pointing>
     <Menu.Item as={Link} to='/dashboard'>Dashboard</Menu.Item>
 
-    {hasBooks && <Menu.Item as={Link} to='/books/new'>Add New Book</Menu.Item>}
+    {hasBooks && <Menu.Item as={Link} to='/coins'>Coins</Menu.Item>}
 
     <Menu.Menu position="right">
       <Dropdown trigger={<Image avatar src={gravatarUrl('a@b.com')} />}>
