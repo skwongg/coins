@@ -16,7 +16,6 @@ class CoinsJWTAPIView(APIView):
     renderer_classes=[JSONRenderer,]
 
     def post(self, request, format=None):
-        print(request.data['credentials'])
         token_obj = self.validate(request.data['credentials'])
         return Response(json.dumps(token_obj), status=HTTP_200_OK)
 
