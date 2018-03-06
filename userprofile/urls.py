@@ -6,6 +6,7 @@ from userprofile.views import (
     UserUpdateAPIView,
     UserTokenVerifyAPIView,
     UserResetPasswordAPIView,
+    UserNewPasswordAPIView,
 )
 
 urlpatterns = [
@@ -13,4 +14,5 @@ urlpatterns = [
     url(r'^register$', UserCreateAPIView.as_view(), name='register'),
     url(r'^verify$', UserTokenVerifyAPIView.as_view(), name='verify'),
     url(r'^resetpw$', UserResetPasswordAPIView.as_view(), name='resetpw'),
+    url(r'^newpw$', UserNewPasswordAPIView.as_view(), name='newpw'),
 ]

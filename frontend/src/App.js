@@ -8,6 +8,7 @@ import DashboardPage from './components/pages/DashboardPage';
 import TokenVerificationPage from './components/pages/TokenVerificationPage';
 import SignUpPage from './components/pages/SignUpPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
+import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import UserRoute from './components/routes/UserRoute';
 import GuestRoute from './components/routes/GuestRoute';
 import TopNavigation from './components/navigation/TopNavigation';
@@ -50,6 +51,13 @@ const App = ({location, isAuthenticated}) =>
       path="/forgot-password"
       exact
       component={ForgotPasswordPage}
+      />
+
+    <GuestRoute
+      location={location}
+      path="/reset-password/:token"
+      exact
+      component={ResetPasswordPage}
       />
 
     <UserRoute

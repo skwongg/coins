@@ -16,12 +16,14 @@ export default {
         axios.post('/api/v1/users/verify', {token}).then(res => {
           return res.data
         }),
-      resetpw: (data) =>
-        axios.post('/api/v1/users/resetpw', {data}).then(function(res) {
+      resetpw: data =>
+        axios.post('/api/v1/users/resetpw', { data }).then(function(res) {
           return res.data
         }),
-      resetPasswordRequest: email =>
-        axios.post('api/v1/users/resetpw', { email })
+
+      resetPassword: data =>
+        axios.post('/api/v1/users/newpw', {data})
+
 
     }
 };
