@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { Menu, Dropdown, Image } from 'semantic-ui-react';
+import { Menu, Dropdown, Image, Icon, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
@@ -8,19 +8,24 @@ import * as actions from '../../actions/auth';
 
 
 const TopNavigation = ({ user, logout, hasBooks }) => {
-  return (<Menu secondary pointing>
-    <Menu.Item as={Link} to='/dashboard'>Dashboard</Menu.Item>
+  return (
+    <Container fluid>
+      <Menu secondary pointing>
+        { user.token ?
+          <Menu.Item as={Link} to='/dashboard'>Dashboard</Menu.Item> : null
+        }
+        {hasBooks && <Menu.Item as={Link} to='/coins'>Coins</Menu.Item>}
 
-    {hasBooks && <Menu.Item as={Link} to='/coins'>Coins</Menu.Item>}
-
-    <Menu.Menu position="right">
-      <Dropdown trigger={<Image avatar src={gravatarUrl('a@b.com')} />}>
-        <Dropdown.Menu>
-          <Dropdown.Item onClick={() => logout()}>Logout</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
-    </Menu.Menu>
-  </Menu>)
+        <Menu.Menu position="right">
+          {user.token ?
+            (<Menu.Item onClick={() => logout()}> Logout </Menu.Item>
+              ) : (<Menu.Item as={Link} to='/login'> Login </Menu.Item>
+            )
+          }
+        </Menu.Menu>
+      </Menu>
+    </Container>
+  )
 }
 
 TopNavigation.propTypes = {

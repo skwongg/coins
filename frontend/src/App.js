@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Route } from 'react-router-dom';
+import { Menu, Grid, Container } from 'semantic-ui-react';
 import HomePage from './components/pages/HomePage';
 import LoginPage from './components/pages/LoginPage';
 import DashboardPage from './components/pages/DashboardPage';
@@ -15,12 +16,9 @@ import TopNavigation from './components/navigation/TopNavigation';
 
 
 const App = ({location, isAuthenticated}) =>
-<div>
-  <div className="ui row">
-    {isAuthenticated && <TopNavigation />}
-  </div>
-  <div className="ui container">
-
+<Container fluid>
+    <TopNavigation />
+    <Container>
     <Route
       location={location}
       path="/"
@@ -69,9 +67,8 @@ const App = ({location, isAuthenticated}) =>
       exact
       component={DashboardPage}
       />
-
-  </div>
-</div>
+  </Container>
+</Container>
 App.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired

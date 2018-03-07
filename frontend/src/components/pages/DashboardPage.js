@@ -1,12 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import ConfirmEmailMessage from '../messages/ConfirmEmailMessage'
+import { Grid, Image } from 'semantic-ui-react';
+import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
 
 const DashboardPage = ({ isConfirmed }) => (
-  <div>
-    {!isConfirmed && <ConfirmEmailMessage />}
-  </div>
+  <Grid stackable columns={3} divided>
+      <Grid.Column>
+      </Grid.Column>
+      <Grid.Column>
+      </Grid.Column>
+      <Grid.Column>
+      </Grid.Column>
+      {!isConfirmed && <ConfirmEmailMessage />}
+  </Grid>
 )
 
 DashboardPage.propTypes = {
