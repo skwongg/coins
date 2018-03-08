@@ -5,16 +5,16 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
 import gravatarUrl from 'gravatar-url';
 import * as actions from '../../actions/auth';
+import allCoinsSelector from '../../reducers/coins'
 
-
-const TopNavigation = ({ user, logout, hasBooks }) => {
+const TopNavigation = ({ user, logout, hasCoins }) => {
   return (
     <Container fluid>
       <Menu secondary pointing>
         { user.token ?
           <Menu.Item as={Link} to='/dashboard'>Dashboard</Menu.Item> : null
         }
-        {hasBooks && <Menu.Item as={Link} to='/coins'>Coins</Menu.Item>}
+        {hasCoins && <Menu.Item as={Link} to='/coins'>Coins</Menu.Item>}
 
         <Menu.Menu position="right">
           {user.token ?
@@ -32,14 +32,14 @@ TopNavigation.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string.isRequired
   }).isRequired,
-  hasBooks: PropTypes.bool.isRequired,
+  hasCoins: PropTypes.bool.isRequired,
   logout: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state){
   return {
     user: state.user,
-    hasBooks: 1 //#TODO: allBooksSelector(state).length > 0
+    hasCoins: allCoinsSelector(state).length > 0
   }
 }
 
