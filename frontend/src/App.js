@@ -11,6 +11,7 @@ import SignUpPage from './components/pages/SignUpPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import CoinsPage from './components/pages/CoinsPage';
+import NewCoinPage from './components/pages/NewCoinPage';
 import UserRoute from './components/routes/UserRoute';
 import GuestRoute from './components/routes/GuestRoute';
 import TopNavigation from './components/navigation/TopNavigation';
@@ -73,6 +74,12 @@ const App = ({location, isAuthenticated}) =>
       path="/dashboard"
       exact
       component={DashboardPage}
+      />
+    <UserRoute
+      location={location}
+      path="/coins/new"
+      exact
+      component={NewCoinPage}
       />
   </Container>
 </Container>
