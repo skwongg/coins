@@ -10,6 +10,7 @@ import TokenVerificationPage from './components/pages/TokenVerificationPage';
 import SignUpPage from './components/pages/SignUpPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
+import CoinsPage from './components/pages/CoinsPage';
 import UserRoute from './components/routes/UserRoute';
 import GuestRoute from './components/routes/GuestRoute';
 import TopNavigation from './components/navigation/TopNavigation';
@@ -31,6 +32,12 @@ const App = ({location, isAuthenticated}) =>
       path="/verify/:token"
       exact
       component={TokenVerificationPage}
+      />
+    <Route
+      location={location}
+      path="/coins"
+      exact
+      component={CoinsPage}
       />
 
     <GuestRoute
