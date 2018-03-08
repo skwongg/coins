@@ -8,6 +8,7 @@ class Coin(models.Model):
     pair=models.CharField(max_length=10)
     price=models.DecimalField(max_digits=15, decimal_places=8)
     btc_price=models.DecimalField(max_digits=15, decimal_places=8)
+    icon_url=models.CharField(max_length=255, null=True, blank=True)
 
     def __unicode__(self):
         return self.name
