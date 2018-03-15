@@ -1,21 +1,12 @@
 import React from 'react';
-
+import { Form, Dropdown } from 'semantic-ui-react';
+import { login } from '../../actions/coins';
+import axios from 'axios';
 class SearchCoinForm extends React.Component {
   state = {
     query: '',
     loading: false,
-    options: [{
-        key: 1,
-        value: 1,
-        text: 'first coin'
-      },
-      {
-        key: 2,
-        value: 3,
-        text: 'second coin'
-
-      }
-    ],
+    options: [],
     coins: {}
   }
 
@@ -32,6 +23,19 @@ class SearchCoinForm extends React.Component {
     this.setState({
       loading: true
     });
+    axios.get(`/api/coins/search?q=${this.state.query.searchQuery}`)
+    .then(res => res.data.coins).then(coins => {
+      const options = []
+      const coinsHash = {};
+      coins.forEach(coin => {
+        coinsHash[coin.ticker] = coin;
+        options.push({
+          key: coin.ticker,
+          price: coin.price
+        })
+      });
+      this.setState({loading:false, options, coins:coinsHash})
+    })
   }
 
   render() {
@@ -43,6 +47,8 @@ class SearchCoinForm extends React.Component {
           placeholder="Search for a coin by ticker"
           value={this.state.query}
           onSearchChange={this.onSearchChange}
+          options={this.state.options}
+          loading={this.state.loading}
         />
       </Form>
     );

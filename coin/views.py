@@ -12,6 +12,7 @@ from coin.models import Coin
 from coin.serializers.create_coin import CoinCreateSerializer
 from coin.serializers.update_coin import CoinUpdateSerializer
 from coin.serializers.read_coins import CoinReadSerializer
+from coin.serializers.search_coins import CoinSearchSerializer
 import json
 
 class CoinCreateAPIView(CreateAPIView):
@@ -46,3 +47,15 @@ class CoinReadAPIView(RetrieveAPIView):
         coins = Coin.objects.all()
         serializer = CoinReadSerializer(coins, many=True)
         return Response({"coins":serializer.data}, status=HTTP_200_OK)
+
+class CoinSearchAPIView(RetrieveAPIView):
+    serializer_class=CoinSearchSerializer
+    def get(self, request):
+        ticker = request.query_params['q']
+        if (ticker):
+            coin = Coin.objects.filter(ticker=ticker)
+            if coin:
+                #serializer
+                return Response(json.dumps({'status':'potato'}))
+
+        return Response(json.dumps({'status': 404, 'message': 'Coin not found'}), status=HTTP_400_BAD_REQUEST)
