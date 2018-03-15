@@ -23,18 +23,20 @@ class SearchCoinForm extends React.Component {
     this.setState({
       loading: true
     });
-    axios.get(`/api/coins/search?q=${this.state.query.searchQuery}`)
-    .then(res => res.data.coins).then(coins => {
+    axios.get(`/api/v1/coins/search?q=${this.state.query.searchQuery}`)
+    .then(res =>
+      res.data.coin
+      ).then(coin => {
       const options = []
       const coinsHash = {};
-      coins.forEach(coin => {
-        coinsHash[coin.ticker] = coin;
-        options.push({
-          key: coin.ticker,
-          price: coin.price
-        })
-      });
-      this.setState({loading:false, options, coins:coinsHash})
+      if (coin) {
+          coinsHash[coin.ticker] = coin;
+          options.push({
+            key: coin.ticker,
+            price: coin.price
+          })
+      }
+      this.setState({loading:false, options, coins: coinsHash})
     })
   }
 

@@ -52,10 +52,11 @@ class CoinSearchAPIView(RetrieveAPIView):
     serializer_class=CoinSearchSerializer
     def get(self, request):
         ticker = request.query_params['q']
-        if (ticker):
+        if ticker:
             coin = Coin.objects.filter(ticker=ticker)
             if coin:
-                #serializer
-                return Response(json.dumps({'status':'potato'}))
+                coin = coin.first()
+                serializer = CoinSearchSerializer(coin)
+                return Response({"coin": serializer.data},status=HTTP_200_OK)
 
         return Response(json.dumps({'status': 404, 'message': 'Coin not found'}), status=HTTP_400_BAD_REQUEST)
