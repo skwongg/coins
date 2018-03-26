@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'hodlings',
     'jwtauth',
     'pwreset',
-
+    'search',
 ]
 
 REST_FRAMEWORK = {

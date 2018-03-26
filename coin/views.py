@@ -13,6 +13,7 @@ from coin.serializers.create_coin import CoinCreateSerializer
 from coin.serializers.update_coin import CoinUpdateSerializer
 from coin.serializers.read_coins import CoinReadSerializer
 from coin.serializers.search_coins import CoinSearchSerializer
+from search.coinsearch import search
 import json
 
 class CoinCreateAPIView(CreateAPIView):
@@ -29,7 +30,6 @@ class CoinUpdateAPIView(UpdateAPIView):
         else:
             #case of missing attribute that can not be generated
             return json.dumps({'abc':'xyz'})
-            # return HTTP_400_BAD_REQUEST
 
     def validate_req(self, request):
         if ('price' in request.POST) and ('name' in request.POST) and ('ticker' in request.POST) and ('btc_price' in request.POST):
@@ -52,6 +52,7 @@ class CoinSearchAPIView(RetrieveAPIView):
     serializer_class=CoinSearchSerializer
     def get(self, request):
         ticker = request.query_params['q']
+        return Response(search(ticker))
         if ticker:
             coin = Coin.objects.filter(ticker=ticker)
             if coin:
