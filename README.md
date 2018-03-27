@@ -17,6 +17,7 @@ A simple dango app to make sense of coin data and serve API. Additional feature 
 ### EMAIL_PORT
 ### EMAIL_USER
 ### EMAIL_PASS
-### GOODREADS_KEY
-### GOODREADS_SECRET
 ### SALT
+### ES_COIN_SEARCH_URL
+
+#### i promise at some point i will document each key, but today is not that day, unfortunately.

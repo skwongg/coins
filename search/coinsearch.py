@@ -1,6 +1,7 @@
 from elasticsearch import Elasticsearch
 from coin.models import Coin
 import requests
+import os
 
 es = Elasticsearch()
 
@@ -23,6 +24,6 @@ def build_coin_index():
                 )
 
 def search(querystring):
-    es_coin_url = """http://127.0.0.1:9200/coins/_search?size=10&q=pair:*{0}*""".format(querystring)
-    res = requests.get(es_coin_url).json()
+    ES_COIN_SEARCH_URL = os.environ.get("ES_COIN_SEARCH_URL") + """size=10&q=pair:*{0}*""".format(querystring)
+    res = requests.get(ES_COIN_SEARCH_URL).json()
     return res
