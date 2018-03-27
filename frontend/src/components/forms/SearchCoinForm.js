@@ -18,26 +18,40 @@ class SearchCoinForm extends React.Component {
     this.timer = setTimeout(this.fetchOptions, 1000);
   }
 
+  onChange = (e, data) => {
+    this.setState({query: data.value});
+    // this.props.onCoinSelect(this.state.coins[data.value]);
+  }
+
   fetchOptions = () => {
     if (!this.state.query) return;
     this.setState({
       loading: true
     });
+
     axios.get(`/api/v1/coins/search?q=${this.state.query.searchQuery}`)
-    .then(res =>
-      res.data.coin
-      ).then(coin => {
-      const options = []
-      const coinsHash = {};
-      if (coin) {
-          coinsHash[coin.ticker] = coin;
+    .then(res => res.data.hits)
+      .then(coins => {
+        const options = []
+        const coinsHash = {};
+        coins.hits.forEach(coin => {
+          coinsHash[coin._id] = coin;
           options.push({
-            key: coin.ticker,
-            price: coin.price
+            key: coin._id,
+            value: coin._id,
+            ticker: coin._source.ticker,
+            pair: coin._source.pair,
+            name: coin._source.name,
+            price: coin._source.price,
+            btc_price: coin._source.btc_price,
+            icon_url: coin._source.icon_url,
+            text: coin._source.pair
           })
-      }
-      this.setState({loading:false, options, coins: coinsHash})
-    })
+        });
+        console.log(options)
+        this.setState({loading: false, options, coins: coinsHash });
+      })
+
   }
 
   render() {
@@ -51,6 +65,7 @@ class SearchCoinForm extends React.Component {
           onSearchChange={this.onSearchChange}
           options={this.state.options}
           loading={this.state.loading}
+          onChange={this.onChange}
         />
       </Form>
     );
