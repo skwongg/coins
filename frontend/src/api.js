@@ -23,7 +23,32 @@ export default {
 
       resetPassword: data =>
         axios.post('/api/v1/users/newpw', {data})
+    },
 
-
+    coin: {
+      coinsearch: querystring =>
+        axios.get(`/api/v1/coins/search?q=${querystring}`)
+          .then(res => res.data.hits)
+          .then(coins => {
+            const options = []
+            const coinsHash = {};
+            coins.hits.forEach(coin => {
+              coinsHash[coin._id] = coin;
+              options.push({
+                key: coin._id,
+                value: coin._id,
+                ticker: coin._source.ticker,
+                pair: coin._source.pair,
+                name: coin._source.name,
+                price: coin._source.price,
+                btc_price: coin._source.btc_price,
+                icon_url: coin._source.icon_url,
+                text: coin._source.pair
+              })
+            });
+            // console.log(options)
+            return {loading: false, options, coins: coinsHash}
+            // this.setState({loading: false, options, coins: coinsHash });
+          }),
     }
 };

@@ -1,6 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Form, Dropdown } from 'semantic-ui-react';
-import { login } from '../../actions/coins';
+import { coinsearch } from '../../actions/coins';
+
 import axios from 'axios';
 class SearchCoinForm extends React.Component {
   state = {
@@ -16,6 +18,7 @@ class SearchCoinForm extends React.Component {
       query: data
     });
     this.timer = setTimeout(this.fetchOptions, 1000);
+
   }
 
   onChange = (e, data) => {
@@ -25,33 +28,9 @@ class SearchCoinForm extends React.Component {
 
   fetchOptions = () => {
     if (!this.state.query) return;
-    this.setState({
-      loading: true
-    });
-
-    axios.get(`/api/v1/coins/search?q=${this.state.query.searchQuery}`)
-    .then(res => res.data.hits)
-      .then(coins => {
-        const options = []
-        const coinsHash = {};
-        coins.hits.forEach(coin => {
-          coinsHash[coin._id] = coin;
-          options.push({
-            key: coin._id,
-            value: coin._id,
-            ticker: coin._source.ticker,
-            pair: coin._source.pair,
-            name: coin._source.name,
-            price: coin._source.price,
-            btc_price: coin._source.btc_price,
-            icon_url: coin._source.icon_url,
-            text: coin._source.pair
-          })
-        });
-        console.log(options)
-        this.setState({loading: false, options, coins: coinsHash });
-      })
-
+    this.setState({loading: true});
+    this.props.coinsearch(this.state.query.searchQuery)
+    .then(res => this.setState(res));
   }
 
   render() {
@@ -72,4 +51,4 @@ class SearchCoinForm extends React.Component {
   }
 }
 
-export default SearchCoinForm;
+export default connect(null, { coinsearch })(SearchCoinForm);
