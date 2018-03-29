@@ -46,9 +46,7 @@ export default {
                 text: coin._source.pair
               })
             });
-            // console.log(options)
             return {loading: false, options, coins: coinsHash}
-            // this.setState({loading: false, options, coins: coinsHash });
           }),
     }
 };

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Form, Dropdown } from 'semantic-ui-react';
 import { coinsearch } from '../../actions/coins';
 
-import axios from 'axios';
 class SearchCoinForm extends React.Component {
   state = {
     query: '',
@@ -23,6 +23,7 @@ class SearchCoinForm extends React.Component {
 
   onChange = (e, data) => {
     this.setState({query: data.value});
+    this.props.onCoinSelect(this.state.coins[data.value]);
     // this.props.onCoinSelect(this.state.coins[data.value]);
   }
 
@@ -49,6 +50,10 @@ class SearchCoinForm extends React.Component {
       </Form>
     );
   }
+}
+
+SearchCoinForm.propTypes = {
+  onCoinSelect: PropTypes.func.isRequired
 }
 
 export default connect(null, { coinsearch })(SearchCoinForm);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid, Image, Segment } from 'semantic-ui-react';
 import { coins } from '../../actions/coins';
 
 
@@ -13,9 +13,11 @@ class CoinsPage extends React.Component {
 
   render() {
     return (
-      <Grid stackable columns={3} divided>
-
-      </Grid>
+      <Segment stackable columns={3} divided>
+        <Grid>
+          abcabc
+        </Grid>
+      </Segment>
     )
   }
 }
