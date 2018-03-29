@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Form, Button, Grid, Segment } from 'semantic-ui-react';
-import InlineError from '../messages/InlineError';
 
 
 class CoinForm extends React.Component {
@@ -46,7 +45,6 @@ class CoinForm extends React.Component {
               <Grid.Column>
                 <Form.Field error={!!errors.title}>
                   <label htmlFor="ticker">Coin Ticker</label>
-
                   <input
                     type="text"
                     id="quant"
@@ -55,8 +53,6 @@ class CoinForm extends React.Component {
                     value={data.ticker}
                     onChange={this.onChange}
                     />
-
-
                 </Form.Field>
               </Grid.Column>
             </Grid.Row>
@@ -64,14 +60,14 @@ class CoinForm extends React.Component {
               <Button primary>Save</Button>
             </Grid.Row>
           </Grid>
-
         </Form>
-
       </Segment>
-
-
     )
   }
+}
+
+CoinForm.propTypes = {
+  submit: PropTypes.func.isRequired
 }
 
 export default CoinForm

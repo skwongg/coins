@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/auth'
 import { Container } from 'semantic-ui-react';
@@ -8,7 +7,7 @@ import { Container } from 'semantic-ui-react';
 const HomePage = ({ isAuthenticated, logout }) => (
   <Container>
     <h1>Home Page</h1>
-    
+
   </Container>
 )
 

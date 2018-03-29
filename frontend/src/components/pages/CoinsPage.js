@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid, Image, Segment } from 'semantic-ui-react';
-import { coins } from '../../actions/coins';
+import { Grid, Segment } from 'semantic-ui-react';
 
 
 class CoinsPage extends React.Component {

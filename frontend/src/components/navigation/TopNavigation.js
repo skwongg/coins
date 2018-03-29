@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types'
-import { Menu, Dropdown, Image, Icon, Container } from 'semantic-ui-react';
+import { Menu, Container } from 'semantic-ui-react';
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom';
-import gravatarUrl from 'gravatar-url';
 import * as actions from '../../actions/auth';
 import allCoinsSelector from '../../reducers/coins'
 

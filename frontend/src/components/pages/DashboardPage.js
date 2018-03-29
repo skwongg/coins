@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid, Image } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import ConfirmEmailMessage from '../messages/ConfirmEmailMessage';
 import { allCoinsSelector } from '../../reducers/coins';
 import AddCoinCTA from '../ctas/AddCoinCTA';
