@@ -6,7 +6,7 @@ import ForgotPasswordForm from '../forms/ForgotPasswordForm';
 import { resetpw } from '../../actions/auth';
 
 class ForgotPasswordPage extends React.Component{
-  state ={
+  state = {
     success: false
   }
 

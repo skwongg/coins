@@ -13,7 +13,7 @@ class BinancePoll(Coin):
     btc_price = ''
     maincoins=dict()
 
-    def poll_prices(self):
+    def write_prices(self):
         return self.update_all_coins()
 
     def ping_binance(self):

@@ -15,7 +15,7 @@ class Command(BaseCommand):
         exch = options['exchange_name']
         a = BinancePoll()
         if exch =='poll':
-            a.poll_prices()
+            a.write_prices()
             return "binance price polling complete"
 
         elif exch=='24hr':
