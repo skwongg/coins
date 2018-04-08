@@ -8,7 +8,6 @@ import allCoinsSelector from '../../reducers/coins'
 
 const TopNavigation = ({ user, logout, hasCoins }) => {
   return (
-    <Container fluid>
       <Menu secondary pointing>
         { user.token ?
           <Menu.Item as={Link} to='/dashboard'>Dashboard</Menu.Item> : null
@@ -23,7 +22,6 @@ const TopNavigation = ({ user, logout, hasCoins }) => {
           }
         </Menu.Menu>
       </Menu>
-    </Container>
   )
 }
 

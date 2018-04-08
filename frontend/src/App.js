@@ -20,7 +20,6 @@ import TopNavigation from './components/navigation/TopNavigation';
 const App = ({location, isAuthenticated}) =>
 <Container fluid>
     <TopNavigation />
-    <Container>
     <Route
       location={location}
       path="/"
@@ -81,8 +80,8 @@ const App = ({location, isAuthenticated}) =>
       exact
       component={NewCoinPage}
       />
-  </Container>
 </Container>
+
 App.propTypes = {
   location: PropTypes.shape({
     pathname: PropTypes.string.isRequired

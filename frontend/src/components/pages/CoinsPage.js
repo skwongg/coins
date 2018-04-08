@@ -1,22 +1,28 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Grid, Segment } from 'semantic-ui-react';
+import { Grid, Container } from 'semantic-ui-react';
+import { getCoins } from '../../actions/coins'
+import CoinCard from '../coins/CoinCard'
 
 
 class CoinsPage extends React.Component {
-  submit = (data) =>
-    this.props.coins(data).then();
 
-
+  componentDidMount() {
+    this.props.dispatch(getCoins())
+  }
 
   render() {
+    const { coins } = this.props.coins
     return (
-      <Segment stackable columns={3} divided>
-        <Grid>
-          abcabc
+        <Grid container columns={2}>
+          <Grid.Column >
+          {coins.length > 0 ? coins.map(coin =>
+              <CoinCard coin={coin}/>
+            ) : null
+          }
+          </Grid.Column>
         </Grid>
-      </Segment>
     )
   }
 }
@@ -27,10 +33,10 @@ CoinsPage.propTypes = {
   isConfirmed: PropTypes.bool.isRequired
 };
 
-function mapStateToProps(state) {
-  return {
-    isConfirmed: !!state.user.confirmed
-  };
-}
+
+const mapStateToProps = state => ({
+  isConfirmed: !!state.user.confirmed,
+  coins: state.coins
+})
 
 export default connect(mapStateToProps)(CoinsPage);

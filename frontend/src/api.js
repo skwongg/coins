@@ -47,6 +47,10 @@ export default {
               })
             });
             return {loading: false, options, coins: coinsHash}
-          }),
+      }),
+      getcoins: page =>
+        axios.get(`/api/v1/coins/?offset=${page}`).then(res => {
+          return res
+      })
     }
 };

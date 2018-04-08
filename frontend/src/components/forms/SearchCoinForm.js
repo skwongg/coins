@@ -24,7 +24,6 @@ class SearchCoinForm extends React.Component {
   onChange = (e, data) => {
     this.setState({query: data.value});
     this.props.onCoinSelect(this.state.coins[data.value]);
-    // this.props.onCoinSelect(this.state.coins[data.value]);
   }
 
   fetchOptions = () => {
