@@ -2,3 +2,8 @@ Django==2.0.1
 dotenv==0.0.5
 psycopg2==2.7.3.2
 pytz==2017.3
+djangorestframework
+djangorestframework-jwt
+elasticsearch
+requests
+pymongo

@@ -19,8 +19,7 @@ class CoinsPage extends React.Component {
           <Grid.Column >
           {coins.length > 0 ? coins.map(coin =>
               <CoinCard coin={coin}/>
-            ) : null
-          }
+            ) : null }
           </Grid.Column>
         </Grid>
     )
@@ -30,7 +29,8 @@ class CoinsPage extends React.Component {
 
 
 CoinsPage.propTypes = {
-  isConfirmed: PropTypes.bool.isRequired
+  isConfirmed: PropTypes.bool.isRequired,
+  coins: PropTypes.array.isRequired
 };
 
 
