@@ -105,31 +105,3 @@ class BinancePoll(Coin):
                 print (coin['symbol'], coin['price'])
                 continue
         return "finished"
-
-    def aggregate_trades(self):
-        r = requests.get(BINAN_BASE_URL + "/aggTrades?symbol=ETHBTC")
-        agg_trades = r.json()
-
-        if ('code' in agg_trades) and ((agg_trades['code'] == -1121) or (agg_trades['code'] == -1100)):
-            return False
-        return agg_trades
-
-    def get_depths(self):
-        coin_tickers = Coin.objects.all().values_list('pair',flat=True)
-        for coin in coin_tickers[:5]:
-            r = requests.get(BINAN_BASE_URL + "/depth?symbol={0}".format(coin))
-            agg_trades = r.json()
-        return agg_trades
-
-    def get_24h_stats(self):
-        all_stats = requests.get(BINAN_BASE_URL + "/ticker/24hr").json()
-        db = mongo.mongocoin
-        collections = db.daily_coin_data
-        for stat in all_stats:
-            print (all_stats)
-            mongobj_id = collections.insert_one(stat)
-            try:
-                print("Pair {0}: Completed. MongoID: {1}".format(stat['symbol'], mongobj_id))
-            except:
-                print("Pair {0} Failed...".format(stat['symbol']))
-        return all_stats
