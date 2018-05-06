@@ -2,33 +2,24 @@ import os
 import requests
 from pymongo import MongoClient
 from coin.models import Coin
+from multiprocessing import Pool
+from coinds.cassandra.coins import Coin as CassandraCoin
 
 BINAN_API_KEY=os.environ.get("BINAN_API_KEY")
 BINAN_SECRET_KEY=os.environ.get("BINAN_SECRET_KEY")
 BINAN_BASE_URL=os.environ.get("BINAN_BASE_URL")
 MONGO_URL=os.environ.get("MONGO_URL")
 mongo = MongoClient(MONGO_URL)
+from datetime import datetime
 
 class BinancePoll(Coin):
-    btc_price = ''
+    btc_price = 0
     maincoins=dict()
+    day =  datetime.now().strftime('%m-%d-%Y')
+    time = datetime.now()
 
     def write_prices(self):
         return self.update_all_coins()
-
-    def ping_binance(self):
-        r = requests.get("{0}/ping".format(BINAN_BASE_URL))
-        if r.status_code:
-            return True
-        else:
-            raise
-
-    def get_binance_time(self):
-        r = requests.get("{0}/time".format(BINAN_BASE_URL)).json()
-        if 'serverTime' in r:
-            return r['serverTime']
-        else:
-            return False
 
     def find_btc(self, all_coins):
         for coin in all_coins:
@@ -45,37 +36,43 @@ class BinancePoll(Coin):
                 print("NEW COIN: {0}".format(coin_obj['symbol']))
                 print("@" * 100)
             ticker = coin_obj['symbol'].split('USDT')[0]
-            price = coin_obj['price']
+            price = float(coin_obj['price'])
+            btc_price = price / self.btc_price
             basepair.ticker = ticker
             basepair.name = ticker
             basepair.price = price
-            basepair.btc_price = self.btc_price
+            basepair.btc_price = btc_price
             basepair.save()
+            #this Cassandra call doesnt belong here, i just needed a way to get more than one row in so i could test my graph on the frontend. im sorry.
+            CassandraCoin.create(day=self.day, name=ticker, ticker=ticker, pair=coin_obj['symbol'], icon_url="None", price=price, btc_price=btc_price, source="binance", created_at=self.time)
+
             return ticker, price
         else:
             return False
 
     def write_tradepairs(self, coin_obj):
-        if 'USDT' in coin_obj['symbol']:
+        pair = coin_obj['symbol']
+        if 'USDT' in pair:
             return False
         else:
             for maincoin in self.maincoins.keys():
-                if maincoin in coin_obj['symbol'] and coin_obj['symbol'].index(maincoin) > 0:
-                    cutoff = coin_obj['symbol'].index(maincoin)
-                    ticker = coin_obj['symbol'][0:cutoff]
-                    in_terms_of = coin_obj['symbol'][cutoff:]
+                if maincoin in pair and pair.index(maincoin) > 0:
+                    cutoff = pair.index(maincoin)
+                    ticker = pair[0:cutoff]
+                    in_terms_of = pair[cutoff:]
                     price = float(self.maincoins[in_terms_of]) * float(coin_obj['price'])
-
+                    btc_price = price / self.btc_price
                     try:
-                        cryptopair = Coin.objects.get(pair=coin_obj['symbol'])
+                        cryptopair = Coin.objects.get(pair=pair)
                     except:
-                        cryptopair = Coin(pair=coin_obj['symbol'])
+                        cryptopair = Coin(pair=pair)
                     cryptopair.ticker = ticker
                     cryptopair.name = ticker
                     cryptopair.price = price
-                    cryptopair.btc_price = (price / self.btc_price)
+                    cryptopair.btc_price = btc_price
                     cryptopair.save()
-
+                    #this Cassandra call doesnt belong here, i just needed a way to get more than one row in so i could test my graph on the frontend. im sorry.
+                    CassandraCoin.create(day=self.day, name=ticker, ticker=ticker, pair=pair, icon_url="None", price=price, btc_price=btc_price, source="binance", created_at=self.time)
                     print(price, ticker, coin_obj['price'], in_terms_of)
                     print("Coin {0} saved successfully.".format(ticker))
                     print("*" * 100)
