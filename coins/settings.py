@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'jwtauth',
     'pwreset',
     'search',
+    'coinds'
 ]
 
 REST_FRAMEWORK = {
