@@ -74,6 +74,7 @@ const App = ({location, isAuthenticated}) =>
       exact
       component={DashboardPage}
       />
+
     <UserRoute
       location={location}
       path="/coins/new"

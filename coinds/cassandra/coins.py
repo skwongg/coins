@@ -9,10 +9,10 @@ cluster=Cluster()
 
 class Coin(Model):
     id=columns.UUID(partition_key=True, default=uuid.uuid4)
-    day=columns.Text()
+    day=columns.Text(primary_key=True, clustering_order="DESC")
     name=columns.Text(required=True)
     ticker=columns.Text(required=True)
-    pair=columns.Text(required=True)
+    pair=columns.Text(primary_key=True, required=True)
     icon_url=columns.Text(required=False)
     price=columns.Decimal(required=False)
     btc_price=columns.Decimal(required=False)

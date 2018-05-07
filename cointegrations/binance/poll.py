@@ -37,7 +37,7 @@ class BinancePoll(Coin):
                 print("@" * 100)
             ticker = coin_obj['symbol'].split('USDT')[0]
             price = float(coin_obj['price'])
-            btc_price = price / self.btc_price
+            btc_price = round((price / self.btc_price), 8)
             basepair.ticker = ticker
             basepair.name = ticker
             basepair.price = price
@@ -61,7 +61,7 @@ class BinancePoll(Coin):
                     ticker = pair[0:cutoff]
                     in_terms_of = pair[cutoff:]
                     price = float(self.maincoins[in_terms_of]) * float(coin_obj['price'])
-                    btc_price = price / self.btc_price
+                    btc_price = round((price / self.btc_price), 8)
                     try:
                         cryptopair = Coin.objects.get(pair=pair)
                     except:
