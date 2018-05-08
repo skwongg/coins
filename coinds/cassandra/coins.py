@@ -8,16 +8,16 @@ from cassandra.cqlengine.models import Model
 cluster=Cluster()
 
 class Coin(Model):
-    id=columns.UUID(partition_key=True, default=uuid.uuid4)
-    day=columns.Text(primary_key=True, clustering_order="DESC")
+    # id=columns.UUID(partition_key=True, default=uuid.uuid4)
+    pair=columns.Text(partition_key=True, required=True)
+    day=columns.Text(partition_key=True)
     name=columns.Text(required=True)
     ticker=columns.Text(required=True)
-    pair=columns.Text(primary_key=True, required=True)
     icon_url=columns.Text(required=False)
     price=columns.Decimal(required=False)
     btc_price=columns.Decimal(required=False)
     source=columns.Text()
-    created_at=columns.DateTime()
+    created_at=columns.DateTime(primary_key=True, clustering_order="DESC")
 
 
 connection.setup(['127.0.0.1'], "cassy", protocol_version=3)
